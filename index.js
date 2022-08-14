@@ -1,44 +1,58 @@
-const puppeteer = require('puppeteer');
 const editJsonFile = require('edit-json-file');
 const notifier = require('node-notifier');
+const puppeteer = require('puppeteer');
 
 (async () => {
-    const browser = await puppeteer.launch({headless: false});
-    let mangasList = editJsonFile('mangas.json');
+    let mangasJson = editJsonFile('mangas.json');
     let unreadMangas = [];
-    for (var mangaName in mangasList.read()) {
+    let mangasList = [];
+    for (var mangaName in mangasJson.read()) {
+        mangasList.push(mangaName);
+    }
+    for (let i = 0; i < mangasList.length; i++) {
+        const browser = await puppeteer.launch();
         const page = await browser.newPage();
-        const lastSeen = mangasList.get(`${mangaName}.lastSeen`);
-        const latestChapter = mangasList.get(`${mangaName}.latestChapter`);
-        const mangaLink = mangasList.get(`${mangaName}.link`);
+        const mangaLink = mangasJson.get(`${mangasList[i]}.link`);
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36');
-        // await page.setViewport({
-        //     width: 1500,
-        //     height: 1000,
-        //     deviceScaleFactor: 1,
-        // });
         await page.goto(mangaLink);
-        console.log('\x1b[35m%s\x1b[0m', mangaName);
-
+        console.log('\x1b[35m%s\x1b[0m', mangasList[i]);
+        
         const mangas = await page.evaluate(() => {
             // Search latest cap on mangalivre
-            const test = document.querySelector('.cap-text');
-            const chapter = document.getElementsByClassName('.hidden-xs');
+            const chapter = document.querySelectorAll('.cap-text');
             const chapters = [...chapter];
             const lastChapter = chapters.map(id => id.innerText);
-            return { chapter, chapters, lastChapter, test};
+            var chapterNumber;
+            if (lastChapter.length <= 0) {
+                chapterNumber = "Cannot find the last chapter";
+            }
+            else { 
+                chapterNumber = lastChapter[0].slice(9);
+            };
+            return { chapterNumber };
         })
-        console.log(mangas.test);
-        await page.screenshot({ path: `${mangaName}.png` });
-        // Last thing to do;
-        if (lastSeen < latestChapter) {
-            unreadMangas.push(mangaName);
+        console.log(mangas.chapterNumber);
+        // Update json file
+        if (!mangasJson.get(`${mangasList[i]}.lastSeen`)) {
+            mangasJson.set(`${mangasList[i]}.lastSeen`, 0);
         }
+        mangasJson.set(`${mangasList[i]}.latestChapter`, mangas.chapterNumber);
+        mangasJson.save();
+        mangasJson = editJsonFile('mangas.json', {
+            autosave: true
+        })
+        // Last thing to do;
+        const lastSeen = mangasJson.get(`${mangasList[i]}.lastSeen`);
+        const latestChapter = mangasJson.get(`${mangasList[i]}.latestChapter`);
+        
+        if (lastSeen < latestChapter) {
+            unreadMangas.push(mangasList[i]);
+        }
+        await browser.close();
     }
-    await browser.close();
     if (unreadMangas.length > 0) {
         notifier.notify({
-            title: `${unreadMangas.length} mangas with unread chapters`,
+            title: `${unreadMangas.length} mangas with unread chapters. \nSee json file for more info.`,
             appID: 'MangaCheck',
             message: `${unreadMangas}`,
             icon: 'mangalivre-icon.png'
@@ -46,7 +60,7 @@ const notifier = require('node-notifier');
     }
     if (unreadMangas.length <= 0) {
         notifier.notify({
-            title: 'No manga updated',
+            title: 'No manga updated. \nSee json file for more info.',
             appID: 'MangaCheck',
             message: 'Hope for better next week!',
             icon: 'mangalivre-icon.png'
