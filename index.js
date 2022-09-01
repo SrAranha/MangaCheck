@@ -10,13 +10,11 @@ const puppeteer = require('puppeteer');
         mangasList.push(mangaName);
     }
     for (let i = 0; i < mangasList.length; i++) {
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({ headless: false }); // For some reason, headless:true make the browser disconnect.
         const page = await browser.newPage();
         const mangaLink = mangasJson.get(`${mangasList[i]}.link`);
-        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36');
-        await page.goto(mangaLink);
+        await page.goto(mangaLink, { waitUntil: 'load' } );
         console.log('\x1b[35m%s\x1b[0m', mangasList[i]);
-        
         const mangas = await page.evaluate(() => {
             // Search latest cap on mangalivre
             const chapter = document.querySelectorAll('.cap-text');
@@ -24,31 +22,45 @@ const puppeteer = require('puppeteer');
             const lastChapter = chapters.map(id => id.innerText);
             var chapterNumber;
             if (lastChapter.length <= 0) {
-                chapterNumber = "Cannot find the last chapter";
+                chapterNumber = "Cannot find the lastest chapter.";
+                //var moreThanOnce = true;
+                //var timesToRun = 1;
+                //if (moreThanOnce) {
+                //    console.log("Trying again!");
+                //    for (let i = 0; i < timesToRun; i++) {
+                //        //page.reload();
+                //        const chapter2 = document.querySelectorAll('.cap-text');
+                //        const chapters2 = [...chapter2];
+                //        const lastChapter2 = chapters2.map(id => id.innerText);
+                //        if (lastChapter2.length > 0) {
+                //            chapterNumber = lastChapter2[0].slice(9);
+                //        }
+                //    }
+                //}
             }
             else { 
                 chapterNumber = lastChapter[0].slice(9);
-            };
+            }
             return { chapterNumber };
-        })
+        });
         console.log(mangas.chapterNumber);
+        await browser.close();
         // Update json file
         if (!mangasJson.get(`${mangasList[i]}.lastSeen`)) {
             mangasJson.set(`${mangasList[i]}.lastSeen`, 0);
-        }
+        };
         mangasJson.set(`${mangasList[i]}.latestChapter`, mangas.chapterNumber);
         mangasJson.save();
         mangasJson = editJsonFile('mangas.json', {
             autosave: true
-        })
-        // Last thing to do;
+        });
+        // Prepping notification
         const lastSeen = mangasJson.get(`${mangasList[i]}.lastSeen`);
         const latestChapter = mangasJson.get(`${mangasList[i]}.latestChapter`);
         
         if (lastSeen < latestChapter) {
             unreadMangas.push(mangasList[i]);
-        }
-        await browser.close();
+        };
     }
     if (unreadMangas.length > 0) {
         notifier.notify({
@@ -66,4 +78,4 @@ const puppeteer = require('puppeteer');
             icon: 'mangalivre-icon.png'
         });
     }
-})();  
+})();
