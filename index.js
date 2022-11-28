@@ -3,18 +3,20 @@ const notifier = require('node-notifier');
 const puppeteer = require('puppeteer');
 
 (async () => {
-    let mangasJson = editJsonFile('mangas.json');
+    const json = "personalMangas.json";
+    let mangasJson = editJsonFile(json);
     let unreadMangas = [];
     let mangasList = [];
     for (var mangaName in mangasJson.read()) {
         mangasList.push(mangaName);
     }
     for (let i = 0; i < mangasList.length; i++) {
-        const browser = await puppeteer.launch({ headless: false }); // For some reason, headless:true make the browser disconnect.
+        const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
         const mangaLink = mangasJson.get(`${mangasList[i]}.link`);
-        await page.goto(mangaLink, { waitUntil: 'load' } );
         console.log('\x1b[35m%s\x1b[0m', mangasList[i]);
+        console.log(mangaLink);
+        await page.goto(mangaLink, { waitUntil: 'load' } );
         const mangas = await page.evaluate(() => {
             // Search latest cap on mangalivre
             const chapter = document.querySelectorAll('.cap-text');
@@ -51,7 +53,7 @@ const puppeteer = require('puppeteer');
         };
         mangasJson.set(`${mangasList[i]}.latestChapter`, mangas.chapterNumber);
         mangasJson.save();
-        mangasJson = editJsonFile('mangas.json', {
+        mangasJson = editJsonFile(json, {
             autosave: true
         });
         // Prepping notification
