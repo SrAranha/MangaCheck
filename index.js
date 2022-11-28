@@ -4,6 +4,7 @@ const puppeteer = require('puppeteer');
 
 (async () => {
     const json = "personalMangas.json";
+    const moreThanOnce = true;
     let mangasJson = editJsonFile(json);
     let unreadMangas = [];
     let mangasList = [];
@@ -25,20 +26,19 @@ const puppeteer = require('puppeteer');
             var chapterNumber;
             if (lastChapter.length <= 0) {
                 chapterNumber = "Cannot find the lastest chapter.";
-                //var moreThanOnce = true;
-                //var timesToRun = 1;
-                //if (moreThanOnce) {
-                //    console.log("Trying again!");
-                //    for (let i = 0; i < timesToRun; i++) {
-                //        //page.reload();
-                //        const chapter2 = document.querySelectorAll('.cap-text');
-                //        const chapters2 = [...chapter2];
-                //        const lastChapter2 = chapters2.map(id => id.innerText);
-                //        if (lastChapter2.length > 0) {
-                //            chapterNumber = lastChapter2[0].slice(9);
-                //        }
-                //    }
-                //}
+                if (moreThanOnce) {
+                    var timesToRun = 1;
+                    console.log("Trying again!");
+                    for (let i = 0; i < timesToRun; i++) {
+                        location.reload(true);
+                        const chapter2 = document.querySelectorAll('.cap-text');
+                        const chapters2 = [...chapter2];
+                        const lastChapter2 = chapters2.map(id => id.innerText);
+                        if (lastChapter2.length > 0) {
+                            chapterNumber = lastChapter2[0].slice(9);
+                        }
+                    }
+                }
             }
             else { 
                 chapterNumber = lastChapter[0].slice(9);
