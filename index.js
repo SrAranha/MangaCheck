@@ -1,9 +1,10 @@
-const editJsonFile = require('edit-json-file');
-const notifier = require('node-notifier');
-const puppeteer = require('puppeteer');
+var editJsonFile = require('edit-json-file');
+var notifier = require('node-notifier');
+var puppeteer = require('puppeteer');
+var open = require('open');
 
 (async () => {
-    const json = "personalMangas.json";
+    const json = "mangas.json";
     const moreThanOnce = true;
     let mangasJson = editJsonFile(json);
     let unreadMangas = [];
@@ -66,18 +67,24 @@ const puppeteer = require('puppeteer');
     }
     if (unreadMangas.length > 0) {
         notifier.notify({
-            title: `${unreadMangas.length} mangas with unread chapters. \nSee json file for more info.`,
+            title: `${unreadMangas.length} mangas with unread chapters. \nClick me for more info.`,
             appID: 'MangaCheck',
             message: `${unreadMangas}`,
-            icon: 'mangalivre-icon.png'
+            icon: 'mangalivre-icon.png',
+            wait: true
+        }, function() {
+            open(`${json}`, { app: { name: 'notepad' } });
         });
     }
     if (unreadMangas.length <= 0) {
         notifier.notify({
-            title: 'No manga updated. \nSee json file for more info.',
+            title: 'No manga updated. \nClick me for more info.',
             appID: 'MangaCheck',
             message: 'Hope for better next week!',
-            icon: 'mangalivre-icon.png'
+            icon: 'mangalivre-icon.png',
+            wait: true
+        }, function() {
+            open(`${json}`, { app: { name: 'notepad' } });
         });
     }
 })();
