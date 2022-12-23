@@ -2,6 +2,7 @@
   "dependencies": {
     "edit-json-file": "^1.7.0",
     "node-notifier": "^10.0.1",
+    "open": "^8.4.0",
     "puppeteer": "^15.4.0"
   }
 }
