@@ -1,6 +1,9 @@
+var editJsonFile = require('edit-json-file');
 var readline = require('readline');
 var options = require('./options');
 var common = require('./common'); // no fway this works kekw
+var main = require('../main');
+var path = require('path');
 
 /** Colors for easier view on terminal. */
 exports.colors = {
@@ -120,4 +123,28 @@ exports.ChooseOptions = function ChooseOptions(option) {
             })
         break;
     }
+}
+
+/**
+ * Get manga data.
+ * @param {string} manga manga name
+ * @returns name (manga name on list)
+ * @returns data (more info on manga)
+ */
+exports.GetManga = function GetManga(manga) {
+    manga = manga.toLocaleUpperCase();
+    const jsonPath = path.join(__dirname, `../json/${main.jsonManga}`);
+    var jsonFile = editJsonFile(jsonPath);
+    let mangaData;
+    let mangaName;
+    for (const name in jsonFile.read()) {
+        if (name.toLocaleUpperCase() == manga) {
+            mangaData = jsonFile.get(`${name}`);
+            mangaName = name;
+        }
+    }
+    if (!mangaData) {
+        console.log(common.colors.red, "Can't find this manga.");
+    }
+    return { name: mangaName, data: mangaData };
 }
