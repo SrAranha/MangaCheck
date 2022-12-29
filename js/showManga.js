@@ -3,8 +3,9 @@ var common = require('./common');
 /**
  * Show the desired manga infos, like name, chapters, link, score.
  * @param {string} manga name of the manga.
+ * @param {boolean} nextOptions if need to show options after showing manga infos.
  */
-exports.Show = function ShowManga(manga) {
+exports.Show = function ShowManga(manga, nextOptions) {
     const mangaData = common.GetManga(manga);
 
     console.log('\n');
@@ -14,5 +15,7 @@ exports.Show = function ShowManga(manga) {
     console.log(common.colors.green, 'Link=> ', mangaData.data.link);
     console.log('\n');
 
-    common.WhatNow('show');
+    if (nextOptions) {
+        common.WhatNow('show');
+    }
 }
