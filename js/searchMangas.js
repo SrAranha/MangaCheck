@@ -64,7 +64,7 @@ exports.search = async function search(jsonFile, moreThanOnce) {
         if (!mangasJson.get(`${mangasList[i]}.lastSeen`)) {
             mangasJson.set(`${mangasList[i]}.lastSeen`, 0);
         };
-        mangasJson.set(`${mangasList[i]}.latestChapter`, mangas.chapterNumber);
+        mangasJson.set(`${mangasList[i]}.latestChapter`, parseInt(mangas.chapterNumber));
         mangasJson.save();
         mangasJson = editJsonFile(jsonPath, {
             autosave: true
@@ -98,4 +98,5 @@ exports.search = async function search(jsonFile, moreThanOnce) {
         wait: true
     });
     console.log(common.colors.yellow, 'Finished updating with new chapters.');
+    common.WhatNow('search');
 };
