@@ -1,11 +1,11 @@
 var mangas = require('./searchMangas');
+var score = require('./scoreManga');
 var show = require('./showManga');
 var common = require('./common');
 var main = require('../main');
 
 exports.ShowManga = function ShowManga() {
     common.rl.question(`${common.colors.cyan}Which manga you want to see?\n` + `${common.colors.cyan}Manga name: `, function(mangaName) {
-        mangaName = mangaName.toLocaleUpperCase();
         show.Show(mangaName);
     });
 }
@@ -23,7 +23,11 @@ exports.RemoveManga = function RemoveManga() {
 }
 
 exports.ScoreManga = function ScoreManga() {
-    
+    common.rl.question(`${common.colors.cyan}Which manga you want to add/change score?\n` + `${common.colors.cyan}Manga name: `, function(mangaName) {
+        common.rl.question(`${common.colors.cyan}What score you give to ${mangaName}? `, function(newScore) {
+            score.Score(mangaName, newScore);
+        })
+    });
 }
 
 exports.SearchManga = function SearchManga() {
