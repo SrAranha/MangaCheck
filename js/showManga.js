@@ -3,6 +3,10 @@ var common = require('./common');
 var main = require('../main');
 var path = require('path');
 
+/**
+ * Show the desired manga infos, like name, chapters, link, score.
+ * @param {string} manga name of the manga.
+ */
 exports.Show = function ShowManga(manga) {
     manga.toLocaleUpperCase();
     const jsonPath = path.join(__dirname, `../json/${main.jsonManga}`);
