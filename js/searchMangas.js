@@ -1,12 +1,18 @@
 var editJsonFile = require('edit-json-file');
 var notifier = require('node-notifier');
 var puppeteer = require('puppeteer');
-var open = require('open');
+var common = require('./common');
+var path = require('path');
 
-(async () => {
-    const json = "mangas.json";
-    const moreThanOnce = true;
-    let mangasJson = editJsonFile(json);
+/**
+ * Search for new chapters fo the mangas in given json file.
+ * @param {string} jsonFile json file with mangas.
+ * @param {boolean} moreThanOnce if should search another time when error occours.
+ */
+exports.search = async function search(jsonFile, moreThanOnce) {
+    const json = jsonFile;
+    const jsonPath = path.join(__dirname, `../json/${json}`);
+    let mangasJson = editJsonFile(jsonPath);
     let unreadMangas = [];
     let mangasList = [];
     for (var mangaName in mangasJson.read()) {
@@ -16,8 +22,14 @@ var open = require('open');
         const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
         const mangaLink = mangasJson.get(`${mangasList[i]}.link`);
-        console.log('\x1b[35m%s\x1b[0m', mangasList[i]);
+        console.log(common.colors.magenta, mangasList[i]);
         console.log(mangaLink);
+        if (!mangaLink) {
+            console.log("Link broken");
+            console.log("---------DEBUG---------");
+            console.log("see on normal console for full report.");
+            console.log(mangasJson);
+        }
         await page.goto(mangaLink, { waitUntil: 'load' } );
         const mangas = await page.evaluate(() => {
             // Search latest cap on mangalivre
@@ -46,7 +58,7 @@ var open = require('open');
             }
             return { chapterNumber };
         });
-        console.log(mangas.chapterNumber);
+        console.log(`${common.colors.cyan}Latest chapter => ${mangas.chapterNumber}`);
         await browser.close();
         // Update json file
         if (!mangasJson.get(`${mangasList[i]}.lastSeen`)) {
@@ -54,9 +66,12 @@ var open = require('open');
         };
         mangasJson.set(`${mangasList[i]}.latestChapter`, mangas.chapterNumber);
         mangasJson.save();
-        mangasJson = editJsonFile(json, {
+        mangasJson = editJsonFile(jsonPath, {
             autosave: true
         });
+        if (!mangasJson.get(`${mangasList[i]}.personalScore`)) {
+            mangasJson.set(`${mangasList[i]}.personalScore`, 0);
+        }
         // Prepping notification
         const lastSeen = mangasJson.get(`${mangasList[i]}.lastSeen`);
         const latestChapter = mangasJson.get(`${mangasList[i]}.latestChapter`);
@@ -65,26 +80,22 @@ var open = require('open');
             unreadMangas.push(mangasList[i]);
         };
     }
+    var ntfTittle;
+    var ntfMessage;
     if (unreadMangas.length > 0) {
-        notifier.notify({
-            title: `${unreadMangas.length} mangas with unread chapters. \nClick me for more info.`,
-            appID: 'MangaCheck',
-            message: `${unreadMangas}`,
-            icon: 'mangalivre-icon.png',
-            wait: true
-        }, function() {
-            open(`${json}`, { app: { name: 'notepad' } });
-        });
+        ntfTittle = `${unreadMangas.length} mangas with unread chapters.`;
+        ntfMessage = `${unreadMangas}`;
     }
     if (unreadMangas.length <= 0) {
-        notifier.notify({
-            title: 'No manga updated. \nClick me for more info.',
-            appID: 'MangaCheck',
-            message: 'Hope for better next week!',
-            icon: 'mangalivre-icon.png',
-            wait: true
-        }, function() {
-            open(`${json}`, { app: { name: 'notepad' } });
-        });
+        ntfTittle = 'No manga updated.';
+        ntfMessage = 'Hope for better next time!';
     }
-})();
+    notifier.notify({
+        title: `${ntfTittle} \nClick me for more info`,
+        appID: 'MangaCheck',
+        message: `${ntfMessage}`,
+        icon: `${__dirname}../assets/mangalivre-icon.png`,
+        wait: true
+    });
+    console.log(common.colors.yellow, 'Finished updating with new chapters.');
+};
