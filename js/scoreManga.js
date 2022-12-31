@@ -24,5 +24,5 @@ exports.Score = function ScoreManga(mangaName, newScore) {
     var currentScore = jsonFile.get(`${mangaName}.personalScore`);
 
     console.log(common.colors.yellow, `Set ${currentScore} as score for ${mangaName}`);
-    show.Show(mangaName, false);
+    show.Show(mangaName, true);
 }
