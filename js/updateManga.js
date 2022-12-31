@@ -21,8 +21,13 @@ exports.Update = function UpdateManga(mangaToUpdate) {
         switch (whatUpdate) {
         
             case 'CHAPTERS':
-                    common.rl.question(`${common.colors.cyan}What is the latest chapter you've read?\n`, function(chapters_Read) {
-                        jsonFile.set(`${mangaName}.lastSeen`, parseInt(chapters_Read));
+                    common.rl.question(`${common.colors.cyan}What is the latest chapter you've read?\n('Latest' to set the latest chapter released)\n`, function(chapters_Read) {
+                        if (chapters_Read.toLocaleUpperCase() == "LATEST") {
+                            jsonFile.set(`${mangaName}.lastSeen`, parseInt(`${jsonFile.get(`${mangaName}.latestChapter`)}`));
+                        }
+                        else {
+                            jsonFile.set(`${mangaName}.lastSeen`, parseInt(chapters_Read));
+                        }
                         SaveShow(mangaName);
                     });
             break;
