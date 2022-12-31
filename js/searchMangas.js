@@ -9,7 +9,7 @@ var path = require('path');
  * @param {string} jsonFile json file with mangas.
  * @param {boolean} moreThanOnce if should search another time when error occours.
  */
-exports.search = async function search(jsonFile, moreThanOnce) {
+exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
     const json = jsonFile;
     const jsonPath = path.join(__dirname, `../json/${json}`);
     let mangasJson = editJsonFile(jsonPath);
