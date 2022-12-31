@@ -16,13 +16,13 @@ exports.Update = function UpdateManga(mangaToUpdate) {
 
     show.Show(mangaName, false);
 
-    common.rl.question(`${common.colors.cyan}What you want to update?\n ${common.colors.green} Chapters | Score | Link \n`, function(whatUpdate) {
+    common.rl.question(`${common.colors.cyan}What you want to update?\n` + `${common.colors.green}Chapters | Score | Link \n`, function(whatUpdate) {
         whatUpdate = whatUpdate.toLocaleUpperCase();
         switch (whatUpdate) {
         
             case 'CHAPTERS':
                     common.rl.question(`${common.colors.cyan}What is the latest chapter you've read?\n`, function(chapters_Read) {
-                        jsonFile.set(`${mangaName}.lastSeen`, chapters_Read);
+                        jsonFile.set(`${mangaName}.lastSeen`, parseInt(chapters_Read));
                         SaveShow(mangaName);
                     });
             break;
@@ -50,7 +50,6 @@ exports.Update = function UpdateManga(mangaToUpdate) {
 
     function SaveShow(mangaName) {
         jsonFile.save();
-        show.Show(mangaName, false);
+        show.Show(mangaName, true);
     }
-    common.WhatNow('update');
 }
