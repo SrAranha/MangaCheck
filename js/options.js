@@ -1,5 +1,6 @@
 var search = require('./searchMangas');
 var update = require('./updateManga');
+var remove = require('./removeManga');
 var score = require('./scoreManga');
 var show = require('./showManga');
 var common = require('./common');
@@ -29,7 +30,9 @@ exports.AddManga = function AddManga() {
 }
 
 exports.RemoveManga = function RemoveManga() {
-    
+    common.rl.question(`${common.colors.cyan}Which manga you want to remove?\n` + questionMangaName, function(mangaName) {
+        remove.Remove(mangaName);
+    });
 }
 
 exports.ScoreManga = function ScoreManga() {
