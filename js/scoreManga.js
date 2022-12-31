@@ -2,6 +2,7 @@ var editJsonFile = require('edit-json-file');
 var common = require('./common');
 var main = require('../main');
 var path = require('path');
+var show = require('./showManga');
 
 /**
  * Add or update score from manga.
@@ -23,6 +24,5 @@ exports.Score = function ScoreManga(mangaName, newScore) {
     var currentScore = jsonFile.get(`${mangaName}.personalScore`);
 
     console.log(common.colors.yellow, `Set ${currentScore} as score for ${mangaName}`);
-
-    common.WhatNow('score');
+    show.Show(mangaName, false);
 }
