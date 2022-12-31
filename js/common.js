@@ -46,12 +46,12 @@ exports.qYesNo = function qYesNo(yesno) {
  * @description Function to provide new options to user.
  * @param {string} previous last option chosed. (optional) */
 exports.WhatNow = function WhatNow(previous) {
-    previous = previous.toLocaleUpperCase();
     const options = ['SHOW', 'UPDATE', 'ADD', 'REMOVE', 'SCORE', 'SEARCH', 'EXIT'];
     var newOptions = options;
     var nextOptions = common.colors.cyan + 'What to do now?\n' + common.colors.green;
     
     if (previous) {
+        previous = previous.toLocaleUpperCase();
         var previousIndex = options.indexOf(previous);
         newOptions.splice(previousIndex, 1);
     }
