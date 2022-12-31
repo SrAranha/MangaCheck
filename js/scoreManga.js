@@ -14,7 +14,6 @@ exports.Score = function ScoreManga(mangaName, newScore) {
         console.log(common.colors.red, 'Maximum score is 10');
         newScore = 10;
     }
-    mangaName = mangaName.toLocaleUpperCase();
     const jsonPath = path.join(__dirname, `../json/${main.jsonManga}`);
     var jsonFile = editJsonFile(jsonPath);
 
