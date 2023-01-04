@@ -73,6 +73,7 @@ exports.WhatNow = function WhatNow(previous) {
  * @param {string} option One of the options between `SHOW | UPDATE | ADD | REMOVE | SCORE | SEARCH | EXIT`.
  */
 exports.ChooseOptions = function ChooseOptions(option) {
+    option = option.split(' ').join('');
     switch (option.toLocaleUpperCase()) {
         case 'SHOW':
             console.log(common.colors.yellow, 'Showing Manga');
