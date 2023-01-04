@@ -130,6 +130,7 @@ exports.ChooseOptions = function ChooseOptions(option) {
  * @param {string} manga manga name
  * @returns name (manga name on list)
  * @returns data (more info on manga)
+ * @returns isManga (if found the manga)
  */
 exports.GetManga = function GetManga(manga) {
     manga = manga.toLocaleUpperCase();
@@ -137,14 +138,17 @@ exports.GetManga = function GetManga(manga) {
     var jsonFile = editJsonFile(jsonPath);
     let mangaData;
     let mangaName;
+    let isManga;
     for (const name in jsonFile.read()) {
         if (name.toLocaleUpperCase() == manga) {
             mangaData = jsonFile.get(`${name}`);
             mangaName = name;
         }
     }
+    isManga = true;
     if (!mangaData) {
+        isManga = false;
         console.log(common.colors.red, "Can't find this manga.");
     }
-    return { name: mangaName, data: mangaData };
+    return { name: mangaName, data: mangaData, isManga};
 }
