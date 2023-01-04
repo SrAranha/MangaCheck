@@ -19,6 +19,9 @@ if (folder.length > 1) {
         }
     }
     rl.question(`${colors.yellow}Which json file you want?\n` + `${colors.green}${files}\n`, function(whichFile) {
+        if (!whichFile.includes('.json')) {
+            whichFile += '.json';
+        }
         if (folder.includes(whichFile)) {
             console.log(colors.yellow, `Selecting '${whichFile}'`);
             jsonFile = whichFile;
@@ -26,6 +29,19 @@ if (folder.length > 1) {
         }
         else {
             console.log(colors.red, `${whichFile} is not on the list!`);
+            rl.question(`${colors.yellow}Please, type it again: `, function(whichFile_2) {
+                if (!whichFile_2.includes('.json')) {
+                    whichFile_2 += '.json';
+                }
+                if (folder.includes(whichFile_2)) {
+                    console.log(colors.yellow, `Selecting '${whichFile_2}'`);
+                    jsonFile = whichFile_2;
+                    StartMangaCheck();
+                }
+                else {
+                    rl.close();
+                }
+            });
         }
     })
 }
