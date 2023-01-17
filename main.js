@@ -1,11 +1,10 @@
 var { colors, rl, ChooseOptions } = require('./js/common');
-var main = require('./main');
 var path = require('path');
 var fs = require('fs');
 
 // Search for json files in json folder
-exports.jsonFolder = path.join(__dirname, './json');
-var folder = fs.readdirSync(main.jsonFolder);
+var jsonFolder = path.join(__dirname, './json');
+var folder = fs.readdirSync(jsonFolder);
 /** Json file selected. */
 var jsonFile;
 if (folder.length > 1) {
@@ -55,7 +54,7 @@ if (folder.length <= 0) {
         if (qYesNo(createFile)) { // affirmative form
             console.log(colors.magenta, 'Creating an new mangas.json');
             jsonFile = 'mangas.json'
-            fs.writeFileSync(`${main.jsonFolder}/${jsonFile}`, '{ }');
+            fs.writeFileSync(`${jsonFolder}/${jsonFile}`, '{ }');
             StartMangaCheck();
         }
     })
