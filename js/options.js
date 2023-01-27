@@ -11,7 +11,7 @@ const questionMangaName = 'Manga Name: ';
 
 exports.ShowManga = function ShowManga() {
     common.rl.question(`${common.colors.cyan}Which manga you want to see?\n` + questionMangaName, function(mangaName) {
-        show.Show(mangaName, true);
+        show.Show(mangaName, true, true);
     });
 }
 
