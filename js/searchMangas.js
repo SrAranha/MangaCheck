@@ -7,9 +7,10 @@ var path = require('path');
 /**
  * Search for new chapters fo the mangas in given json file.
  * @param {string} jsonFile json file with mangas.
- * @param {boolean} moreThanOnce if should search another time when error occours.
+ * @param {boolean} moreThanOnce if should search once more when error occours.
  */
 exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
+    console.log("moreThanOnce=> ", moreThanOnce);
     const json = jsonFile;
     const jsonPath = path.join(__dirname, `../json/${json}`);
     let mangasJson = editJsonFile(jsonPath);
@@ -39,19 +40,20 @@ exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
             var chapterNumber;
             if (lastChapter.length <= 0) {
                 chapterNumber = "Cannot find the lastest chapter.";
-                if (moreThanOnce) {
-                    var timesToRun = 1;
-                    console.log("Trying again!");
-                    for (let i = 0; i < timesToRun; i++) {
-                        location.reload(true);
-                        const chapter2 = document.querySelectorAll('.cap-text');
-                        const chapters2 = [...chapter2];
-                        const lastChapter2 = chapters2.map(id => id.innerText);
-                        if (lastChapter2.length > 0) {
-                            chapterNumber = lastChapter2[0].slice(9);
-                        }
-                    }
-                }
+                // Still not working, i need to find out another way to do it.
+                //if (moreThanOnce) {
+                //    var timesToRun = 1;
+                //    console.log("Trying again!");
+                //    for (let i = 0; i < timesToRun; i++) {
+                //        location.reload(true);
+                //        const chapter2 = document.querySelectorAll('.cap-text');
+                //        const chapters2 = [...chapter2];
+                //        const lastChapter2 = chapters2.map(id => id.innerText);
+                //        if (lastChapter2.length > 0) {
+                //            chapterNumber = lastChapter2[0].slice(9);
+                //        }
+                //    }
+                //}
             }
             else { 
                 chapterNumber = lastChapter[0].slice(9);
