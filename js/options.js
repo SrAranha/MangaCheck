@@ -44,14 +44,17 @@ exports.ScoreManga = function ScoreManga() {
 }
 
 exports.SearchManga = function SearchManga() {
-    common.rl.question(`${common.colors.cyan}If can't find chapter, search again? Yes | No\n`, function(yesno) {
-        if (!common.qYesNo(yesno)) { // negative form
-            console.log(common.colors.yellow, "Ok, won't search again.");
-            search.Search(main.jsonManga, false);
-        }
-        if (common.qYesNo(yesno)) { // affirmative form
-            console.log(common.colors.yellow, "Ok, will search again if necessary.");
-            search.Search(main.jsonManga, true);
-        }
-    });
+    //// Question with moreThanOnce fixed.
+    //common.rl.question(`${common.colors.cyan}If can't find chapter, search again? Yes | No\n`, function(yesno) {
+    //    if (!common.qYesNo(yesno)) { // negative form
+    //        console.log(common.colors.yellow, "Ok, won't search again.");
+    //        search.Search(main.jsonManga, false);
+    //    }
+    //    if (common.qYesNo(yesno)) { // affirmative form
+    //        console.log(common.colors.yellow, "Ok, will search again if necessary.");
+    //        search.Search(main.jsonManga, true);
+    //    }
+    //});
+    //// Temporary fix for moreThanOnce not working.
+    search.Search(main.jsonManga, false)
 }
