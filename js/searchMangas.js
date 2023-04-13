@@ -15,6 +15,7 @@ exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
     let mangasJson = editJsonFile(jsonPath);
     let unreadMangas = [];
     let mangasList = [];
+    let mangasNotFound = [];
     for (var manga in mangasJson.read()) {
         if (mangasJson.get(`${manga}.status`) == "Publishing") {
             mangasList.push(manga);
@@ -22,8 +23,9 @@ exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
     }
     for (let i = 0; i < mangasList.length; i++) {
         const mangaLink = mangasJson.get(`${mangasList[i]}.link`);
+        console.log("Searching... (", i + 1, '/', mangasList.length, ')')
         console.log(common.colors.magenta, mangasList[i]);
-        console.log(mangaLink);
+        //console.log(mangaLink);
         if (!mangaLink) {
             console.log("Link broken");
             console.log("---------DEBUG---------");
@@ -41,6 +43,9 @@ exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
         if (enterSite_latestChapter != null) {
             mangasJson.set(`${mangasList[i]}.latestChapter`, parseInt(enterSite_latestChapter));
         }
+        else {
+            mangasNotFound.push(mangasList[i]);
+        }
         mangasJson.save();
         mangasJson = editJsonFile(jsonPath, {
             autosave: true
@@ -56,15 +61,28 @@ exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
             unreadMangas.push(mangasList[i]);
         };
     }
+    console.log(common.colors.yellow, 'Finished searching.');
     var ntfTittle;
     var ntfMessage;
     if (unreadMangas.length > 0) {
+        // Windows toaster
         ntfTittle = `${unreadMangas.length} mangas with unread chapters.`;
         ntfMessage = `${unreadMangas}`;
+        // Notification on console window
+        console.log(common.colors.cyan, 'These mangas have unread chapters:');
+        console.log(common.colors.magenta, unreadMangas);
     }
     if (unreadMangas.length <= 0) {
+        // Windows toaster
         ntfTittle = 'No manga updated.';
         ntfMessage = 'Hope for better next time!';
+        // Notification on console window
+        console.log(common.colors.cyan, 'No new chapters');
+    }
+    if (mangasNotFound > 0) {
+        // Notification on console window
+        console.log(common.colors.cyan, 'Could not find chapters for these:');
+        console.log(common.colors.magenta, mangasNotFound);
     }
     notifier.notify({
         title: `${ntfTittle} \nClick me for more info`,
@@ -73,7 +91,6 @@ exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
         icon: `${__dirname}../assets/mangalivre-icon.png`,
         wait: true
     });
-    console.log(common.colors.yellow, 'Finished updating with new chapters.');
     common.WhatNow('search');
 };
 async function EnterSite(mangaLink) {
@@ -110,7 +127,6 @@ async function EnterSite(mangaLink) {
         return { chapterNumber };
     });
     latestChapter = mangas.chapterNumber;
-    console.log(`${common.colors.cyan}Latest chapter => ${mangas.chapterNumber}`);
     await browser.close();
     return { latestChapter };
 }
