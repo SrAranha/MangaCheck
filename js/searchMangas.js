@@ -37,7 +37,9 @@ exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
             if (!mangasJson.get(`${mangasList[i]}.status`)) {
                 mangasJson.set(`${mangasList[i]}.status`, "Publishing");
             }
-            mangasJson.set(`${mangasList[i]}.latestChapter`, parseInt(enterSite_latestChapter));
+            if (enterSite_latestChapter != null) {
+                mangasJson.set(`${mangasList[i]}.latestChapter`, parseInt(enterSite_latestChapter));
+            }
             mangasJson.save();
             mangasJson = editJsonFile(jsonPath, {
                 autosave: true
@@ -86,7 +88,7 @@ async function EnterSite(mangaLink) {
         const lastChapter = chapters.map(id => id.innerText);
         var chapterNumber;
         if (lastChapter.length <= 0) {
-            chapterNumber = "Cannot find the lastest chapter.";
+            console.log("Could not find the lastest chapter.");
             // Still not working, i need to find out another way to do it.
             //if (moreThanOnce) {
             //    var timesToRun = 1;
