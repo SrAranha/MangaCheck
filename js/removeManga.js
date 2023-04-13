@@ -22,7 +22,7 @@ exports.Remove = function RemoveManga(mangaName) {
             jsonFile.unset(`${mangaName}`);
             jsonFile.save();
         
-            console.log(common.colors.red, `${mangaName} has been removed form list.`);
+            console.log(common.colors.red, `${mangaName} has been removed from list.`);
             common.WhatNow();
         }
     });
