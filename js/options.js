@@ -37,9 +37,7 @@ exports.RemoveManga = function RemoveManga() {
 
 exports.ScoreManga = function ScoreManga() {
     common.rl.question(`${common.colors.cyan}Which manga you want to add/change score?\n` + questionMangaName, function(mangaName) {
-        common.rl.question(`${common.colors.cyan}What score you give to ${mangaName}? `, function(newScore) {
-            score.Score(mangaName, newScore);
-        })
+        score.Score(mangaName);
     });
 }
 
