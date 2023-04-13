@@ -16,45 +16,45 @@ exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
     let unreadMangas = [];
     let mangasList = [];
     for (var manga in mangasJson.read()) {
-        mangasList.push(manga);
+        if (mangasJson.get(`${manga}.status`) == "Publishing") {
+            mangasList.push(manga);
+        }
     }
     for (let i = 0; i < mangasList.length; i++) {
-        if (mangasJson.get(`${mangasList[i]}.status`) == "Publishing") {
-            const mangaLink = mangasJson.get(`${mangasList[i]}.link`);
-            console.log(common.colors.magenta, mangasList[i]);
-            console.log(mangaLink);
-            if (!mangaLink) {
-                console.log("Link broken");
-                console.log("---------DEBUG---------");
-                console.log("see on normal console for full report.");
-                console.log(mangasJson);
-            }
-            const enterSite_latestChapter = (await EnterSite(mangaLink)).latestChapter;
-            // Update json file
-            if (!mangasJson.get(`${mangasList[i]}.lastSeen`)) {
-                mangasJson.set(`${mangasList[i]}.lastSeen`, 0);
-            };
-            if (!mangasJson.get(`${mangasList[i]}.status`)) {
-                mangasJson.set(`${mangasList[i]}.status`, "Publishing");
-            }
-            if (enterSite_latestChapter != null) {
-                mangasJson.set(`${mangasList[i]}.latestChapter`, parseInt(enterSite_latestChapter));
-            }
-            mangasJson.save();
-            mangasJson = editJsonFile(jsonPath, {
-                autosave: true
-            });
-            if (!mangasJson.get(`${mangasList[i]}.personalScore`)) {
-                mangasJson.set(`${mangasList[i]}.personalScore`, 0);
-            }
-            // Prepping notification
-            const lastSeen = mangasJson.get(`${mangasList[i]}.lastSeen`);
-            const latestChapter = mangasJson.get(`${mangasList[i]}.latestChapter`);
-            
-            if (lastSeen < latestChapter) {
-                unreadMangas.push(mangasList[i]);
-            };
+        const mangaLink = mangasJson.get(`${mangasList[i]}.link`);
+        console.log(common.colors.magenta, mangasList[i]);
+        console.log(mangaLink);
+        if (!mangaLink) {
+            console.log("Link broken");
+            console.log("---------DEBUG---------");
+            console.log("see on normal console for full report.");
+            console.log(mangasJson);
         }
+        const enterSite_latestChapter = (await EnterSite(mangaLink)).latestChapter;
+        // Update json file
+        if (!mangasJson.get(`${mangasList[i]}.lastSeen`)) {
+            mangasJson.set(`${mangasList[i]}.lastSeen`, 0);
+        };
+        if (!mangasJson.get(`${mangasList[i]}.status`)) {
+            mangasJson.set(`${mangasList[i]}.status`, "Publishing");
+        }
+        if (enterSite_latestChapter != null) {
+            mangasJson.set(`${mangasList[i]}.latestChapter`, parseInt(enterSite_latestChapter));
+        }
+        mangasJson.save();
+        mangasJson = editJsonFile(jsonPath, {
+            autosave: true
+        });
+        if (!mangasJson.get(`${mangasList[i]}.personalScore`)) {
+            mangasJson.set(`${mangasList[i]}.personalScore`, 0);
+        }
+        // Prepping notification
+        const lastSeen = mangasJson.get(`${mangasList[i]}.lastSeen`);
+        const latestChapter = mangasJson.get(`${mangasList[i]}.latestChapter`);
+        
+        if (lastSeen < latestChapter) {
+            unreadMangas.push(mangasList[i]);
+        };
     }
     var ntfTittle;
     var ntfMessage;
