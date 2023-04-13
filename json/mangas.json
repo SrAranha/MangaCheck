@@ -2,25 +2,29 @@
   "One Piece": {
     "link": "https://mangalivre.net/manga/one-piece/13",
     "lastSeen": 1071,
-    "latestChapter": 1071,
-    "personalScore": 10
+    "latestChapter": 1080,
+    "personalScore": 10,
+    "status": "Dropped"
   },
   "Boku no Hero Academia": {
     "link": "https://mangalivre.net/manga/boku-no-hero-academia/1319",
     "lastSeen": 0,
-    "latestChapter": 376,
-    "personalScore": 6
+    "latestChapter": 384,
+    "personalScore": 6,
+    "status": "Publishing"
   },
   "Boys Love": {
     "link": "https://mangalivre.net/manga/boys-love/7386",
     "lastSeen": 0,
     "latestChapter": 6,
-    "personalScore": 2
+    "personalScore": 2,
+    "status": "Publishing"
   },
   "Black Clover": {
     "link": "https://mangalivre.net/manga/black-clover/1751",
     "lastSeen": 346,
-    "latestChapter": 346,
-    "personalScore": 0
+    "latestChapter": 356,
+    "personalScore": 0,
+    "status": "Publishing"
   }
 }
