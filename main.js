@@ -1,4 +1,4 @@
-var { colors, rl, ChooseOptions } = require('./js/common');
+var { colors, rl, ChooseOptions, RemoveSpaceFromString } = require('./js/common');
 var path = require('path');
 var fs = require('fs');
 
@@ -21,6 +21,9 @@ if (folder.length > 1) {
         if (!whichFile.includes('.json')) {
             whichFile += '.json';
         }
+        if (whichFile.includes(' ')) {
+            whichFile = RemoveSpaceFromString(whichFile).noSpaceString;
+        }
         if (folder.includes(whichFile)) {
             console.log(colors.yellow, `Selecting '${whichFile}'`);
             jsonFile = whichFile;
@@ -31,6 +34,9 @@ if (folder.length > 1) {
             rl.question(`${colors.yellow}Please, type it again: `, function(whichFile_2) {
                 if (!whichFile_2.includes('.json')) {
                     whichFile_2 += '.json';
+                }
+                if (whichFile_2.includes(' ')) {
+                    whichFile_2 = RemoveSpaceFromString(whichFile_2).noSpaceString;
                 }
                 if (folder.includes(whichFile_2)) {
                     console.log(colors.yellow, `Selecting '${whichFile_2}'`);

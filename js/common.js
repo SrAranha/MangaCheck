@@ -67,13 +67,23 @@ exports.WhatNow = function WhatNow(previous) {
         common.ChooseOptions(option);
     });
 }
+/**
+ * @description Remove spaces from string.
+ * @param {string} string 
+ * @returns noSpaceString
+ */
+exports.RemoveSpaceFromString = function RemoveSpaceFromString(string) 
+{
+    noSpaceString = string.split(' ').join('');
+    return { noSpaceString };
+}
 
 /** 
  * @description Function that leads to `option` given.
  * @param {string} option One of the options between `SHOW | UPDATE | ADD | REMOVE | SCORE | SEARCH | EXIT`.
  */
 exports.ChooseOptions = function ChooseOptions(option) {
-    option = option.split(' ').join('');
+    option = RemoveSpaceFromString(option).noSpaceString;
     switch (option.toLocaleUpperCase()) {
         case 'SHOW':
             console.log(common.colors.yellow, 'Showing Manga');
