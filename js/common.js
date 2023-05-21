@@ -83,7 +83,7 @@ exports.RemoveSpaceFromString = function RemoveSpaceFromString(string)
  * @param {string} option One of the options between `SHOW | UPDATE | ADD | REMOVE | SCORE | SEARCH | EXIT`.
  */
 exports.ChooseOptions = function ChooseOptions(option) {
-    option = RemoveSpaceFromString(option).noSpaceString;
+    option = common.RemoveSpaceFromString(option).noSpaceString;
     switch (option.toLocaleUpperCase()) {
         case 'SHOW':
             console.log(common.colors.yellow, 'Showing Manga');
