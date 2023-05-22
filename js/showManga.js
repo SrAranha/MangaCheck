@@ -19,7 +19,7 @@ exports.Show = function ShowManga(manga, nextOptions, openManga) {
         console.log(common.colors.green, 'Link=> ', mangaData.data.link);
         console.log('\n');   
     }
-    if (nextOptions) {
+    if (nextOptions && mangaData.isManga) {
         if (openManga) {
             common.rl.question(`${common.colors.cyan}You want to OPEN this manga, or see the other OPTIONS?\n`, function(option) {
                 option = option.toLocaleUpperCase();
@@ -33,4 +33,5 @@ exports.Show = function ShowManga(manga, nextOptions, openManga) {
         }
         else common.WhatNow();
     }
+    else common.WhatNow();
 }
