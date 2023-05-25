@@ -33,5 +33,8 @@ exports.Show = function ShowManga(manga, nextOptions, openManga) {
         }
         else common.WhatNow();
     }
-    else common.WhatNow();
+    else if (nextOptions)
+    {
+        common.WhatNow();
+    }
 }
