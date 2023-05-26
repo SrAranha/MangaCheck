@@ -154,6 +154,7 @@ exports.GetManga = function GetManga(manga) {
         if (name.toLocaleUpperCase() == manga) {
             mangaData = jsonFile.get(`${name}`);
             mangaName = name;
+            break;
         }
     }
     isManga = true;
