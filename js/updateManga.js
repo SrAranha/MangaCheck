@@ -33,9 +33,7 @@ exports.Update = function UpdateManga(mangaToUpdate) {
             break;
         
             case 'SCORE':
-                    common.rl.question(`${common.colors.cyan}What is the new Score?\n`, function(new_Score) {
-                        score.Score(mangaName, new_Score);
-                    });
+                score.Score(mangaName);
             break;
         
             case 'LINK':
