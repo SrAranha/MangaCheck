@@ -34,12 +34,6 @@ exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
         }
         const enterSite_latestChapter = (await EnterSite(mangaLink)).latestChapter;
         // Update json file
-        if (!mangasJson.get(`${mangasList[i]}.lastSeen`)) {
-            mangasJson.set(`${mangasList[i]}.lastSeen`, 0);
-        };
-        if (!mangasJson.get(`${mangasList[i]}.status`)) {
-            mangasJson.set(`${mangasList[i]}.status`, "Publishing");
-        }
         if (enterSite_latestChapter != null) {
             mangasJson.set(`${mangasList[i]}.latestChapter`, parseInt(enterSite_latestChapter));
         }
@@ -50,9 +44,6 @@ exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
         mangasJson = editJsonFile(jsonPath, {
             autosave: true
         });
-        if (!mangasJson.get(`${mangasList[i]}.personalScore`)) {
-            mangasJson.set(`${mangasList[i]}.personalScore`, 0);
-        }
         // Prepping notification
         const lastSeen = mangasJson.get(`${mangasList[i]}.lastSeen`);
         const latestChapter = mangasJson.get(`${mangasList[i]}.latestChapter`);

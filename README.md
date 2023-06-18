@@ -6,10 +6,10 @@
   - [Running it](#running-it)
 - [Npm Dependencies](#npm-dependencies) 
 - [Changelogs](#changelogs) 
+  - [Version 2.2.2](#version-222)
   - [Version 2.2.1](#version-221)
   - [Version 2.2](#version-22)
-  - [Version 2.1.4](#version-214)
-  - [Version 2.1.3](#version-213)  
+  - [Version 2.1.4](#version-214) 
 
 ### About
 This was an way for me to auto search for updated mangas without the need to manually do it.
@@ -52,6 +52,10 @@ Self explanatory, but here is what each one does:
 [node-notifier]: <https://www.npmjs.com/package/node-notifier>
 
 ### Changelogs:
+##### Version 2.2.2:
+- Resolved an unespected error.
+  - When adding new manga, it doens't add the status, which is needed to search for new chapters.
+  - Now it'll add all the necessary parameters on adding a new manga.
 ##### Version 2.2.1:
 - Resolved issue [#16](https://github.com/SrAranha/MangaCheck/issues/16).
   - Bug was asking for the new score twice before updating it.
