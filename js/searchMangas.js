@@ -25,14 +25,21 @@ exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
         const mangaLink = mangasJson.get(`${mangasList[i]}.link`);
         console.log("Searching... (", i + 1, '/', mangasList.length, ')')
         console.log(common.colors.magenta, mangasList[i]);
-        //console.log(mangaLink);
         if (!mangaLink) {
             console.log("Link broken");
             console.log("---------DEBUG---------");
             console.log("see on normal console for full report.");
             console.log(mangasJson);
         }
-        const enterSite_latestChapter = (await EnterSite(mangaLink)).latestChapter;
+        let enterSite;
+        if (mangaLink.includes("mangalivre")) {
+            enterSite = (await EnterMangaLivre(mangaLink));
+        }
+        else if (mangaLink.includes("prismascans") || mangaLink.includes("prismahentai"))
+        {
+            enterSite = (await EnterPrismaScans(mangaLink));
+        }
+        const enterSite_latestChapter = enterSite.latestChapter;
         // Update json file
         if (enterSite_latestChapter != null) {
             mangasJson.set(`${mangasList[i]}.latestChapter`, parseInt(enterSite_latestChapter));
@@ -84,7 +91,32 @@ exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
     });
     common.WhatNow('search');
 };
-async function EnterSite(mangaLink) {
+async function EnterPrismaScans(mangaLink) {
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+    await page.goto(mangaLink, { waitUntil: 'load' });
+    
+    const mangas = await page.evaluate(() => {
+        let chapterNumber;
+        const classNameHTML = "wp-manga-chapter    ";
+        const chaptersArray = document.getElementsByClassName(`${classNameHTML}`);
+        if (chaptersArray.length <= 0) {
+            console.log("Could not find the lastest chapter.");
+        }
+        else {
+            const lastChapter = chaptersArray[0].innerText;
+            var firstIndex = lastChapter.indexOf(' ');
+            firstIndex++;
+            var lastIndex = lastChapter.indexOf(' ', firstIndex)
+            chapterNumber = lastChapter.slice(firstIndex,lastIndex);
+        }
+        return { chapterNumber};
+    });
+    var latestChapter = mangas.chapterNumber;
+    await browser.close();
+    return { latestChapter }
+}
+async function EnterMangaLivre(mangaLink) {
     let latestChapter;
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
@@ -113,7 +145,7 @@ async function EnterSite(mangaLink) {
             //}
         }
         else { 
-            chapterNumber = lastChapter[0].slice(9);
+            chapterNumber = lastChapter[0].slice(lastChapter[0].indexOf(' ') + 1);
         }
         return { chapterNumber };
     });

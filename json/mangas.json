@@ -9,7 +9,7 @@
   "Boku no Hero Academia": {
     "link": "https://mangalivre.net/manga/boku-no-hero-academia/1319",
     "lastSeen": 0,
-    "latestChapter": 384,
+    "latestChapter": 400,
     "personalScore": 6,
     "status": "Publishing"
   },
@@ -23,8 +23,15 @@
   "Black Clover": {
     "link": "https://mangalivre.net/manga/black-clover/1751",
     "lastSeen": 346,
-    "latestChapter": 356,
+    "latestChapter": 368,
     "personalScore": 0,
     "status": "Publishing"
+  },
+  "Dungeon Odyssey": {
+    "link": "https://prismascans.net/manga/odyssey4/",
+    "status": "Publishing",
+    "lastSeen": 0,
+    "latestChapter": 63,
+    "personalScore": 0
   }
 }
