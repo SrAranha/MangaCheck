@@ -1,16 +1,24 @@
 ﻿# MangaCheck
 ### Contents
-- [About](#about)
-- [How it Works](#how-it-works)
-  - [First Run](#first-run) 
-  - [Running it](#running-it)
-- [Npm Dependencies](#npm-dependencies) 
-- [Changelogs](#changelogs) 
-  - [Version 2.2.2](#version-222)
-  - [Version 2.2.1](#version-221)
-  - [Version 2.2](#version-22)
-  - [Version 2.1.4](#version-214) 
-
+- [MangaCheck](#mangacheck)
+    - [Contents](#contents)
+    - [About](#about)
+    - [How it works](#how-it-works)
+        - [First Run](#first-run)
+        - [Running it](#running-it)
+    - [Npm dependencies:](#npm-dependencies)
+    - [Changelogs:](#changelogs)
+        - [Version 2.3:](#version-23)
+        - [Version 2.2.2:](#version-222)
+        - [Version 2.2.1:](#version-221)
+        - [Version 2.2:](#version-22)
+        - [Version 2.1.4:](#version-214)
+        - [Version 2.1.3:](#version-213)
+        - [Version 2.1.2:](#version-212)
+        - [Version 2.1.1:](#version-211)
+        - [Version 2.1:](#version-21)
+        - [Version 2.0:](#version-20)
+        - [Version 1.0:](#version-10)
 ### About
 This was an way for me to auto search for updated mangas without the need to manually do it.
 Using my previous knowledge with Node.js, i've been able to create this project to satisfy my lazyness.
@@ -52,6 +60,8 @@ Self explanatory, but here is what each one does:
 [node-notifier]: <https://www.npmjs.com/package/node-notifier>
 
 ### Changelogs:
+##### Version 2.3:
+- Added `PrismaScans` as a new site this program can search for mangas.
 ##### Version 2.2.2:
 - Resolved an unespected error.
   - When adding new manga, it doens't add the status, which is needed to search for new chapters.
