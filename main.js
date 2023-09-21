@@ -24,7 +24,7 @@ if (folder.length > 1) {
         if (whichFile.includes(' ')) {
             whichFile = RemoveSpaceFromString(whichFile).noSpaceString;
         }
-        if (folder.includes(whichFile)) {
+        if (folder.includes(whichFile.toLocaleLowerCase())) {
             console.log(colors.yellow, `Selecting '${whichFile}'`);
             jsonFile = whichFile;
             StartMangaCheck();
