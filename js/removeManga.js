@@ -9,6 +9,8 @@ var path = require('path');
  */
 exports.Remove = function RemoveManga(mangaName) {
     mangaName = common.GetManga(mangaName).name;
+    const configPath = path.join(__dirname, './config.json');
+    let configFile = editJsonFile(configPath);
     common.rl.question(`${common.colors.red}Are you sure you want to remove '${mangaName}' from list? Yes / No\n`, function(yesno) {
         if (!common.qYesNo(yesno)) { // negative form
             console.log(common.colors.yellow, "Ok, going back.");
@@ -16,7 +18,7 @@ exports.Remove = function RemoveManga(mangaName) {
         }
         if (common.qYesNo(yesno)) { // affirmative form
             console.log(common.colors.yellow, `Ok, deleting ${mangaName}`);
-            const jsonPath = path.join(__dirname, `../json/${main.jsonManga}`);
+            const jsonPath = path.join(__dirname, `../json/${configFile.get('ChangeList.value')}`);
             var jsonFile = editJsonFile(jsonPath);
         
             jsonFile.unset(`${mangaName}`);

@@ -1,4 +1,5 @@
 var { colors, rl, ChooseOptions, RemoveSpaceFromString } = require('./js/common');
+var editJsonFile = require('edit-json-file');
 var path = require('path');
 var fs = require('fs');
 
@@ -24,7 +25,8 @@ if (folder.length > 1) {
         if (whichFile.includes(' ')) {
             whichFile = RemoveSpaceFromString(whichFile).noSpaceString;
         }
-        if (folder.includes(whichFile.toLocaleLowerCase())) {
+        whichFile = whichFile.toLocaleLowerCase();
+        if (folder.includes(whichFile)) {
             console.log(colors.yellow, `Selecting '${whichFile}'`);
             jsonFile = whichFile;
             StartMangaCheck();
@@ -75,7 +77,15 @@ else if (folder.length == 1) {
 /** Function only to start MangaCheck after selecting json file. */
 function StartMangaCheck() {
     exports.jsonManga = `${jsonFile}`; // This works, so i'll leave it here
-    rl.question(`${colors.cyan}What you want to do?\n` + `${colors.green}SHOW | UPDATE | ADD | REMOVE | SCORE | SEARCH | EXIT\n`, function(option) {
+    var configPath = path.join(__dirname, './js/config.json');
+    var configFile = editJsonFile(configPath);
+    configFile.set(`ChangeList.value`, jsonFile);
+    configFile.save();
+    configFile = editJsonFile(configPath, {
+        autosave: true
+    }); 
+    
+    rl.question(`${colors.cyan}What you want to do?\n` + `${colors.green}SHOW | UPDATE | ADD | REMOVE | SCORE | SEARCH | CONFIG | EXIT\n`, function(option) {
         ChooseOptions(option);
     });
 }

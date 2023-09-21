@@ -13,7 +13,7 @@
   },
   "ChangeList": {
     "description": "This option will let you change to another '.json' file a.k.a. manga list.",
-    "value": "mangas.json",
+    "value": "aranha.json",
     "options": "Any json file",
     "default": "mangas.json"
   },

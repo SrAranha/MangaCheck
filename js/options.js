@@ -6,7 +6,6 @@ var configs = require('./configs');
 var show = require('./showManga');
 var common = require('./common');
 var add = require('./addManga');
-var main = require('../main');
 
 const questionMangaName = 'Manga Name: ';
 
@@ -43,7 +42,9 @@ exports.ScoreManga = function ScoreManga() {
 }
 
 exports.SearchManga = function SearchManga() {
-    search.Search(main.jsonManga, false)
+    const configPath = path.join(__dirname, './config.json');
+    let configFile = editJsonFile(configPath);
+    search.Search(configFile.get('ChangeList.value'), false)
 }
 
 exports.Configurate = function Configurate() {

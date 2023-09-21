@@ -2,7 +2,6 @@ var editJsonFile = require('edit-json-file');
 var score = require('./scoreManga');
 var show = require('./showManga');
 var common = require('./common');
-var main = require('../main');
 var path = require('path');
 
 /**
@@ -10,10 +9,13 @@ var path = require('path');
  * @param {string} mangaToUpdate manga to update.
  */
 exports.Update = function UpdateManga(mangaToUpdate) {
-    var mangaName = common.GetManga(mangaToUpdate).name;
-    const jsonPath = path.join(__dirname, `../json/${main.jsonManga}`);
+    const configPath = path.join(__dirname, './config.json');
+    let configFile = editJsonFile(configPath);
+    
+    const jsonPath = path.join(__dirname, `../json/${configFile.get('ChangeList.value')}`);
     var jsonFile = editJsonFile(jsonPath);
-
+    
+    var mangaName = common.GetManga(mangaToUpdate).name;
     show.Show(mangaName, false);
 
     common.rl.question(`${common.colors.cyan}What you want to update?\n` + `${common.colors.green}Chapters | Score | Link | Status \n`, function(whatUpdate) {

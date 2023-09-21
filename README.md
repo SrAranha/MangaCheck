@@ -8,7 +8,7 @@
   - [Running it](#running-it)
   - [Npm dependencies:](#npm-dependencies)
   - [Changelogs:](#changelogs)
-  - [Version 2.3.1:](#version-231)
+  - [Version 2.4:](#version-24)
 ### About
 This was an way for me to auto search for updated mangas without the need to manually do it.
 Using my previous knowledge with Node.js, i've been able to create this project to satisfy my lazyness.
@@ -53,6 +53,11 @@ Self explanatory, but here is what each one does:
 
 ## Changelogs:
 [Click here for full list of changelogs](./changelog.md).
-## Version 2.3.1:
-- Resolved issue [#19](https://github.com/SrAranha/MangaCheck/issues/19).
-  - When selecting json file, the input was case-sensitive.
+## Version 2.4:
+- Added new option `CONFIG`.
+  - This option will let you change the configuration of certain options.
+  - Such as: `Search Again | Show Amount on List | Change Current List | Restore to Defaults`.
+    - **Search Again** *NOT IMPLEMENTED*: If `True` and the program has failed to get the latest chapter of a manga, it'll search again. If `False`, the program will continue with the next manga.
+    - **Show Amount on List** *(int | ALL)*: The amount of mangas the program will show on `SHOW => LIST` option. If `ALL` is selected, the program will show the entire list at once.
+    - **Change Current List** *NOT IMPLEMENTED*: This option will let you change to another `.json` file a.k.a. manga list.
+    - **Restore to Defaults**: This will restore the options above to default values.

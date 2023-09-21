@@ -1,34 +1,47 @@
 var editJsonFile = require('edit-json-file');
 var common = require('./common');
-var main = require('../main');
 var open = require('open');
 var path = require('path');
+
+let currentMangaNumber = 1;
 
 /**
  * Show the desired manga infos, like name, chapters, link, score.
  * @param {string} toShow what is to show (LIST or manga name).
  * @param {boolean} nextOptions if need to show options after showing manga infos.
  * @param {boolean} openManga if want to show the option to open the manga on browser.
- */
+*/
 exports.Show = function ShowManga(toShow, nextOptions, openManga) {
+    const configPath = path.join(__dirname, './config.json');
+    let configFile = editJsonFile(configPath);
+    const json = configFile.get('ChangeList.value');
+    const mangasPath = path.join(__dirname, `../json/${json}`);
+    let mangasJson = editJsonFile(mangasPath);
+    console.log(`1.${json}`);
     if (toShow.toLocaleUpperCase() == "LIST") {
-        const json = main.jsonManga;
-        const jsonPath = path.join(__dirname, `../json/${json}`);
-        let mangasJson = editJsonFile(jsonPath);
-        let currentMangaNumber = 1;
-
         console.log('\n');
         // TODO: Apply ShowAmount to this option.
-        for (var manga in mangasJson.read()) {
-            let mangaList = common.GetManga(manga);
-            console.log(common.colors.magenta, currentMangaNumber + ". " + mangaList.name + " =-=-=");
-            console.log(common.colors.cyan, `${mangaList.data.lastSeen} / ${mangaList.data.latestChapter}`);
-            console.log(common.colors.magenta, 'Status: ', mangaList.data.status);
-            console.log(common.colors.yellow, 'Personal Score: ', mangaList.data.personalScore);
-            currentMangaNumber++;
+        const showAmount = configFile.get('ShowAmount.value');
+        if (showAmount == "ALL") {
+            for (var manga in mangasJson.read()) {
+                let mangaList = common.GetManga(manga);
+                ListManga(mangaList);
+            }
+            console.log('\n');
+            common.WhatNow();
         }
-        console.log('\n');
-        common.WhatNow();
+        else if (showAmount != "ALL") {
+            var mangas = [];
+            for (var manga in mangasJson.read()) {
+                mangas.push(manga);
+            }
+            for (let index = 0; index < showAmount; index++) {
+                let mangaList = common.GetManga(mangas[index]);
+                ListManga(mangaList);
+            }
+            console.log('\n');
+            ListOptions(showAmount, mangas);
+        }
     }
     else if (toShow.toLocaleUpperCase() != "LIST") {
         const mangaData = common.GetManga(toShow);
@@ -61,4 +74,51 @@ exports.Show = function ShowManga(toShow, nextOptions, openManga) {
     {
         common.WhatNow();
     }
+}
+function ListOptions(showAmount, mangas) {
+    common.rl.question(common.colors.green + "PREVIOUS | NEXT | BACK\n", function(option) {
+        switch (option.toLocaleUpperCase()) {
+            case 'PREVIOUS':
+                if (currentMangaNumber <= showAmount + 1) {
+                    console.log(common.colors.red, "Already on first page!");
+                    currentMangaNumber = 1;
+                }
+                else currentMangaNumber -= showAmount*2;
+                ContinueList(showAmount, mangas);
+            break;
+
+            case 'NEXT':
+                ContinueList(showAmount, mangas);
+            break;
+
+            case 'BACK':
+                common.WhatNow();
+            break;
+        
+            default:
+                console.log("Not an option.");
+            break;
+        }
+    });
+}
+function ContinueList(showAmount, mangas) {
+    for (let index = 0; index < showAmount; index++) {
+        if (index + currentMangaNumber <= mangas.length) {
+            let mangaList = common.GetManga(mangas[index + currentMangaNumber]);
+            ListManga(mangaList);
+        }
+        else {
+            console.log(common.colors.red, "END OF LIST");
+            currentMangaNumber = 1;
+            break;
+        };
+    }
+    ListOptions(showAmount, mangas);
+}
+function ListManga(mangaList) {
+    console.log(common.colors.magenta, currentMangaNumber + ". " + mangaList.name + " =-=-=");
+    console.log(common.colors.cyan, `${mangaList.data.lastSeen} / ${mangaList.data.latestChapter}`);
+    console.log(common.colors.magenta, 'Status: ', mangaList.data.status);
+    console.log(common.colors.yellow, 'Personal Score: ', mangaList.data.personalScore);
+    currentMangaNumber++;
 }

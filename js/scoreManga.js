@@ -1,6 +1,5 @@
 var editJsonFile = require('edit-json-file');
 var common = require('./common');
-var main = require('../main');
 var path = require('path');
 var show = require('./showManga');
 
@@ -11,6 +10,8 @@ var show = require('./showManga');
  */
 exports.Score = function ScoreManga(mangaName) {
     mangaName = common.GetManga(mangaName).name;
+    const configPath = path.join(__dirname, './config.json');
+    let configFile = editJsonFile(configPath);
     if (!mangaName) {
         common.WhatNow();
     }
@@ -20,7 +21,7 @@ exports.Score = function ScoreManga(mangaName) {
                 console.log(common.colors.red, 'Maximum score is 10');
                 newScore = 10;
             }
-            const jsonPath = path.join(__dirname, `../json/${main.jsonManga}`);
+            const jsonPath = path.join(__dirname, `../json/${configFile.get('ChangeList.value')}`);
             var jsonFile = editJsonFile(jsonPath);
             
             mangaScore = jsonFile.set(`${mangaName}.personalScore`, parseInt(newScore));

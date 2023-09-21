@@ -143,7 +143,9 @@ exports.ChooseOptions = function ChooseOptions(option) {
  */
 exports.GetManga = function GetManga(manga) {
     manga = manga.toLocaleUpperCase();
-    const jsonPath = path.join(__dirname, `../json/${main.jsonManga}`);
+    const configPath = path.join(__dirname, './config.json');
+    let configFile = editJsonFile(configPath);
+    const jsonPath = path.join(__dirname, `../json/${configFile.get('ChangeList.value')}`);
     var jsonFile = editJsonFile(jsonPath);
     let mangaData;
     let mangaName;

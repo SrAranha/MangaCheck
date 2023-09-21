@@ -1,6 +1,5 @@
 var editJsonFile = require('edit-json-file');
 var common = require('./common');
-var main = require('../main');
 var path = require('path');
 
 /**
@@ -9,7 +8,9 @@ var path = require('path');
  * @param {string} mangaLink Link for the new manga.
  */
 exports.Add = function AddManga(mangaName, mangaLink) {
-    const jsonPath = path.join(__dirname, `../json/${main.jsonManga}`);
+    const configPath = path.join(__dirname, './config.json');
+    let configFile = editJsonFile(configPath);
+    const jsonPath = path.join(__dirname, `../json/${configFile.get('ChangeList.value')}`);
     let jsonFile = editJsonFile(jsonPath);
 
     jsonFile.set(`${mangaName}.link`, `${mangaLink}`);
