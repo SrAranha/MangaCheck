@@ -1,0 +1,26 @@
+{
+  "SearchAgain": {
+    "description": "If 'True' and the program has failed to get the latest chapter of a manga, it'll search again. If 'False', the program will continue with the next manga.",
+    "value": false,
+    "options": "true | false",
+    "default": false
+  },
+  "ShowAmount": {
+    "description": "The amount of mangas the program will show on 'SHOW => LIST' option. If 'ALL' is selected, the program will show the entire list at once.",
+    "value": 5,
+    "options": "Any integer | ALL",
+    "default": 5
+  },
+  "ChangeList": {
+    "description": "This option will let you change to another '.json' file a.k.a. manga list.",
+    "value": "mangas.json",
+    "options": "Any json file",
+    "default": "mangas.json"
+  },
+  "RestoreToDefault": {
+    "description": "This will restore the options above to default values.",
+    "value": false,
+    "options": "",
+    "default": false
+  }
+}

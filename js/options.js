@@ -2,6 +2,7 @@ var search = require('./searchMangas');
 var update = require('./updateManga');
 var remove = require('./removeManga');
 var score = require('./scoreManga');
+var configs = require('./configs');
 var show = require('./showManga');
 var common = require('./common');
 var add = require('./addManga');
@@ -42,17 +43,9 @@ exports.ScoreManga = function ScoreManga() {
 }
 
 exports.SearchManga = function SearchManga() {
-    //// Question with moreThanOnce fixed.
-    //common.rl.question(`${common.colors.cyan}If can't find chapter, search again? Yes | No\n`, function(yesno) {
-    //    if (!common.qYesNo(yesno)) { // negative form
-    //        console.log(common.colors.yellow, "Ok, won't search again.");
-    //        search.Search(main.jsonManga, false);
-    //    }
-    //    if (common.qYesNo(yesno)) { // affirmative form
-    //        console.log(common.colors.yellow, "Ok, will search again if necessary.");
-    //        search.Search(main.jsonManga, true);
-    //    }
-    //});
-    //// Temporary fix for moreThanOnce not working.
     search.Search(main.jsonManga, false)
+}
+
+exports.Configurate = function Configurate() {
+    configs.Configurate();
 }

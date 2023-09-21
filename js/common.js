@@ -46,7 +46,7 @@ exports.qYesNo = function qYesNo(yesno) {
  * @description Function to provide new options to user.
  * @param {string} previous last option chosed. (optional) */
 exports.WhatNow = function WhatNow(previous) {
-    const options = ['SHOW', 'UPDATE', 'ADD', 'REMOVE', 'SCORE', 'SEARCH', 'EXIT'];
+    const options = ['SHOW', 'UPDATE', 'ADD', 'REMOVE', 'SCORE', 'SEARCH', 'CONFIG', 'EXIT'];
     var newOptions = options;
     var nextOptions = common.colors.cyan + 'What to do now?\n' + common.colors.green;
     
@@ -88,43 +88,41 @@ exports.ChooseOptions = function ChooseOptions(option) {
         case 'SHOW':
             console.log(common.colors.yellow, 'Showing Manga');
             options.ShowManga();
-
         break;
             
         case 'UPDATE':
             console.log(common.colors.yellow, 'Updating Manga');
-            options.UpdateManga();
-            
+            options.UpdateManga();            
         break;
             
         case 'ADD':
             console.log(common.colors.yellow, 'Adding Manga');
             options.AddManga();
-
         break;
         
         case 'REMOVE':
             console.log(common.colors.yellow, 'Removing Manga');
-            options.RemoveManga();
-            
+            options.RemoveManga();            
         break;
             
         case 'SCORE':
             console.log(common.colors.yellow, 'Scoring Manga');
-            options.ScoreManga();
-            
+            options.ScoreManga();            
         break;
         
         case 'SEARCH':
             console.log(common.colors.yellow, 'Searching new chapters');
             options.SearchManga();
-
+        break;
+        
+        case 'CONFIG':
+            console.log(common.colors.yellow, 'Show the configs')
+            options.Configurate();
         break;
 
         case 'EXIT':
             console.log(common.colors.yellow, 'Exiting!');
             common.rl.close();
-
         break;
         
         default:
