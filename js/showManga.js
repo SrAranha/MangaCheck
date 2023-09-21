@@ -18,6 +18,7 @@ exports.Show = function ShowManga(toShow, nextOptions, openManga) {
         let currentMangaNumber = 1;
 
         console.log('\n');
+        // TODO: Apply ShowAmount to this option.
         for (var manga in mangasJson.read()) {
             let mangaList = common.GetManga(manga);
             console.log(common.colors.magenta, currentMangaNumber + ". " + mangaList.name + " =-=-=");

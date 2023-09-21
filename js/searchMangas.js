@@ -47,6 +47,7 @@ exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
         else {
             mangasNotFound.push(mangasList[i]);
         }
+        // TODO: Some day i'll apply SearchAgain to this.
         mangasJson.save();
         mangasJson = editJsonFile(jsonPath, {
             autosave: true
