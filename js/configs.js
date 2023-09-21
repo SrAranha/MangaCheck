@@ -1,5 +1,4 @@
 var editJsonFile = require('edit-json-file');
-var changeList = require('./chooseJsonFile');
 var common = require('./common');
 var path = require('path');
 
