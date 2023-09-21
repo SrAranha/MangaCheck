@@ -8,7 +8,7 @@
   - [Running it](#running-it)
   - [Npm dependencies:](#npm-dependencies)
   - [Changelogs:](#changelogs)
-    - [Version 2.3:](#version-23)
+  - [Version 2.3.1:](#version-231)
 ### About
 This was an way for me to auto search for updated mangas without the need to manually do it.
 Using my previous knowledge with Node.js, i've been able to create this project to satisfy my lazyness.
@@ -53,5 +53,6 @@ Self explanatory, but here is what each one does:
 
 ## Changelogs:
 [Click here for full list of changelogs](./changelog.md).
-### Version 2.3:
-- Added `PrismaScans` as a new site this program can search for mangas.
+## Version 2.3.1:
+- Resolved issue [#19](https://github.com/SrAranha/MangaCheck/issues/19).
+  - When selecting json file, the input was case-sensitive.

@@ -1,5 +1,6 @@
 # Entire changelog
 - [Entire changelog](#entire-changelog)
+  - [Version 2.3.1:](#version-231)
   - [Version 2.3:](#version-23)
   - [Version 2.2.2:](#version-222)
   - [Version 2.2.1:](#version-221)
@@ -12,6 +13,9 @@
   - [Version 2.0:](#version-20)
   - [Version 1.0:](#version-10)
 
+## Version 2.3.1:
+- Resolved issue [#19](https://github.com/SrAranha/MangaCheck/issues/19).
+  - When selecting json file, the input was case-sensitive.
 ## Version 2.3:
 - Added `PrismaScans` as a new site this program can search for mangas.
 ## Version 2.2.2:
