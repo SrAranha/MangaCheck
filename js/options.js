@@ -1,3 +1,4 @@
+var editJsonFile = require('edit-json-file');
 var search = require('./searchMangas');
 var update = require('./updateManga');
 var remove = require('./removeManga');
@@ -6,6 +7,7 @@ var configs = require('./configs');
 var show = require('./showManga');
 var common = require('./common');
 var add = require('./addManga');
+var path = require('path');
 
 const questionMangaName = 'Manga Name: ';
 
