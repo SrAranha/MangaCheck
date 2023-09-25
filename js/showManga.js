@@ -17,10 +17,8 @@ exports.Show = function ShowManga(toShow, nextOptions, openManga) {
     const json = configFile.get('ChangeList.value');
     const mangasPath = path.join(__dirname, `../json/${json}`);
     let mangasJson = editJsonFile(mangasPath);
-    console.log(`1.${json}`);
     if (toShow.toLocaleUpperCase() == "LIST") {
         console.log('\n');
-        // TODO: Apply ShowAmount to this option.
         const showAmount = configFile.get('ShowAmount.value');
         if (showAmount == "ALL") {
             for (var manga in mangasJson.read()) {

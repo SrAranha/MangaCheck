@@ -6,7 +6,6 @@ const jsonPath = path.join(__dirname, './config.json');
 let configFile = editJsonFile(jsonPath);
 let configs = [];
 let currentOptionIndex;
-// TODO: FINISH THIS
 exports.Configurate = function Configurate() {
     ShowConfigs();
 }
