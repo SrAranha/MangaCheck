@@ -73,13 +73,16 @@ exports.Show = function ShowManga(toShow, nextOptions, openManga) {
         common.WhatNow();
     }
 }
+function ResetCurrentMangaNumber() {
+    currentMangaNumber = 1;
+}
 function ListOptions(showAmount, mangas) {
     common.rl.question(common.colors.green + "PREVIOUS | NEXT | BACK\n", function(option) {
         switch (option.toLocaleUpperCase()) {
             case 'PREVIOUS':
                 if (currentMangaNumber <= showAmount + 1) {
                     console.log(common.colors.red, "Already on first page!");
-                    currentMangaNumber = 1;
+                    ResetCurrentMangaNumber();
                 }
                 else currentMangaNumber -= showAmount*2;
                 ContinueList(showAmount, mangas);
@@ -91,6 +94,7 @@ function ListOptions(showAmount, mangas) {
 
             case 'BACK':
                 common.WhatNow();
+                ResetCurrentMangaNumber();
             break;
         
             default:
@@ -107,7 +111,7 @@ function ContinueList(showAmount, mangas) {
         }
         else {
             console.log(common.colors.red, "END OF LIST");
-            currentMangaNumber = 1;
+            ResetCurrentMangaNumber();
             break;
         };
     }
