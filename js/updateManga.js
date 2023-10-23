@@ -27,6 +27,10 @@ exports.Update = function UpdateManga(mangaToUpdate) {
                         if (chapters_Read.toLocaleUpperCase() == "LATEST") {
                             jsonFile.set(`${mangaName}.lastSeen`, parseInt(`${jsonFile.get(`${mangaName}.latestChapter`)}`));
                         }
+                        else if (chapters_Read > parseInt(`${jsonFile.get(`${mangaName}.latestChapter`)}`)) {
+                            console.log(common.colors.red, "==WARNING== \nThe read chapters amount was bigger than the amount of released chapters! Setting to the latest chapter.");
+                            jsonFile.set(`${mangaName}.lastSeen`, parseInt(`${jsonFile.get(`${mangaName}.latestChapter`)}`));
+                        }
                         else {
                             jsonFile.set(`${mangaName}.lastSeen`, parseInt(chapters_Read));
                         }
