@@ -7,7 +7,7 @@
   },
   "ShowAmount": {
     "description": "The amount of mangas the program will show on 'SHOW => LIST' option. If 'ALL' is selected, the program will show the entire list at once.",
-    "value": 5,
+    "value": "ALL",
     "options": "Any integer | ALL",
     "default": 5
   },
