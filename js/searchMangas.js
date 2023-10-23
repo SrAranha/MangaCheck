@@ -33,7 +33,10 @@ exports.Search = async function SearchMangas(jsonFile, moreThanOnce) {
         }
         let enterSite;
         if (mangaLink.includes("mangalivre")) {
-            enterSite = (await EnterMangaLivre(mangaLink));
+            //// FIXME: MANGALIVRE IS DOWN.
+            //enterSite = (await EnterMangaLivre(mangaLink));
+            console.log(common.colors.red, "This manga link was on MangaLivre, but the website is down!");
+            continue;
         }
         else if (mangaLink.includes("prismascans") || mangaLink.includes("prismahentai"))
         {
