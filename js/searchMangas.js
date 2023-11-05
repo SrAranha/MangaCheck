@@ -103,12 +103,13 @@ async function EnterPrismaScans(mangaLink) {
     const mangas = await page.evaluate(() => {
         let chapterNumber;
         const classNameHTML = "wp-manga-chapter    ";
-        const chaptersArray = document.getElementsByClassName(`${classNameHTML}`);
-        if (chaptersArray.length <= 0) {
+        var holder = document.getElementsByClassName(`${classNameHTML}`);
+        if (holder.length <= 0) {
             console.log("Could not find the lastest chapter.");
+            //holder = document.getElementsByClassName(`${classNameHTML}`);
         }
-        else {
-            const lastChapter = chaptersArray[0].innerText;
+        else if (holder[0]) {
+            const lastChapter = holder[0].innerText;
             var firstIndex = lastChapter.indexOf(' ');
             firstIndex++;
             var lastIndex = lastChapter.indexOf(' ', firstIndex)
