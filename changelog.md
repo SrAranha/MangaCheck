@@ -1,5 +1,6 @@
 # Entire changelog
 - [Entire changelog](#entire-changelog)
+  - [Version 2.5.1:](#version-251)
   - [Version 2.5:](#version-25)
   - [Version 2.4:](#version-24)
   - [Version 2.3.1:](#version-231)
@@ -15,6 +16,9 @@
   - [Version 2.0:](#version-20)
   - [Version 1.0:](#version-10)
 
+## Version 2.5.1:
+- Changed variable name on function to search for mangas in `PrismaScans`.
+- Changed examples mangas in `mangas.json`.
 ## Version 2.5:
 - Disabled `MangaLivre` website from search function, as it is down.
 - Added warning when updating the chapters, now it'll alert when the input for last chapter read is bigger than the latest chapter released.

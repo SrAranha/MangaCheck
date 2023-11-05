@@ -8,7 +8,7 @@
   - [Running it](#running-it)
   - [Npm dependencies:](#npm-dependencies)
   - [Changelogs:](#changelogs)
-  - [Version 2.5:](#version-25)
+  - [Version 2.5.1:](#version-251)
 ### About
 This was an way for me to auto search for updated mangas without the need to manually do it.
 Using my previous knowledge with Node.js, i've been able to create this project to satisfy my lazyness.
@@ -53,6 +53,6 @@ Self explanatory, but here is what each one does:
 
 ## Changelogs:
 [Click here for full list of changelogs](./changelog.md).
-## Version 2.5:
-- Disabled `MangaLivre` website from search function, as it is down.
-- Added warning when updating the chapters, now it'll alert when the input for last chapter read is bigger than the latest chapter released.
+## Version 2.5.1:
+- Changed variable name on function to search for mangas in `PrismaScans`.
+- Changed examples mangas in `mangas.json`.
